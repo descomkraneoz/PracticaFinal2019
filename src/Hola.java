@@ -8,7 +8,7 @@ public class Hola {
 
         //System.out.println(pepe.getEdad());
 
-        System.out.println("----------------------");
+        //System.out.println("----------------------");
 
 
         //System.out.println(pepe);
