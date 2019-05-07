@@ -81,9 +81,14 @@ public class Persona {
         return fechaDEP;
     }
 
-    public int getEdad() {
+    public int getEdadActual() {
         LocalDate fechaHoy = LocalDate.now();
         int edad = fechaHoy.getYear() - getFechaNacimiento().getYear();
+        return edad;
+    }
+
+    public int getEdadFinal() {
+        int edad = getFechaDEP().getYear()-getFechaNacimiento().getYear();
         return edad;
     }
 
@@ -98,7 +103,7 @@ public class Persona {
                 ", apellidos='" + apellidos + '\'' +
                 ", pseudonimo='" + pseudonimo + '\'' +
                 ", sexo=" + sexo +
-                ", edad=" + getEdad() +
+                ", edad=" + getEdadActual() +
                 ", nacionalidad='" + nacionalidad + '\'';
     }
 }

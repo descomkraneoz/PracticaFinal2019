@@ -18,7 +18,7 @@ public class Hola {
         Poeta pablo = new Poeta("Pablo", "Neruda", null, Persona.Sexo.HOMBRE, "Chileno", 12, 7, 1904,
                 23, 9, 1973, veinte);
 
-        System.out.println(pablo);
+        System.out.println(pablo.getEdadFinal());
 
 
 
