@@ -10,6 +10,9 @@ public class Disco {
         if (unidadesVendidas > 0) {
             this.unidadesVendidas = unidadesVendidas;
         }
+    }
+
+    public Disco() {
 
     }
 
@@ -39,6 +42,13 @@ public class Disco {
                 "nombreDisco='" + nombreDisco + '\'' +
                 ", unidadesVendidas=" + unidadesVendidas +
                 '}';
+    }
+
+    public String info() {
+        String salida = "";
+        salida += ", disco: " + nombreDisco.substring(0, 1).toUpperCase() + nombreDisco.substring(1).toLowerCase() + " ha vendido un total de ";
+        salida += unidadesVendidas + " unidades \n";
+        return salida;
     }
 
     @Override
