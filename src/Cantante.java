@@ -31,18 +31,15 @@ public class Cantante extends Poeta {
 
     }
 
-    @Override
-    public String toString() {
-        return "El cantante " + super.getNombre() + " " + super.getPrimerApellido();
+    public String info() {
+        String salida = "";
+        salida += "El cantante " + super.getNombre() + " " + super.getPrimerApellido();
+        return salida;
     }
 
-    public static void main(String[] args) {
-
-        Cantante fulano = new Cantante("pepe", "perez");
-        Disco p = new Disco("mar de espinas", 50);
-        fulano.listadoDiscos.pideYAnyade();
-        fulano.listadoDiscos.discos.add(p);
-        System.out.println(fulano.toString() + fulano.listadoDiscos.muestraTodos());
+    @Override
+    public String toString() {
+        return "Cantante " + super.getNombre() + " " + super.getPrimerApellido();
     }
 
 
