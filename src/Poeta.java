@@ -117,6 +117,10 @@ public class Poeta {
         return nacionalidad;
     }
 
+    public String versoConocido(String verso) {
+        return verso;
+    }
+
     @Override
     public String toString() {
         return "Poeta{" +
