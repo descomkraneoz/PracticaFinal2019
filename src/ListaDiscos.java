@@ -7,19 +7,19 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaDiscos {
+public class ListaDiscos implements Utilizable {
     private static final char DELIMITADOR = ';';
-    List<Disco> lista;
+    List<Disco> discos;
 
     ListaDiscos() {
-        lista = new ArrayList<>();
+        discos = new ArrayList<>();
     }
 
     public String muestraTodos() {
         String salida = "";
-        for (Disco d : lista
+        for (Disco d : discos
         ) {
-            salida += d.toString() + "\n";
+            salida += d.info() + "\n";
         }
         return salida;
     }
@@ -30,13 +30,13 @@ public class ListaDiscos {
         int unidadesVendidas = 0;
         disco.setNombreDisco(JOptionPane.showInputDialog("Introduce título: ", nombre.toUpperCase()));
         disco.setUnidadesVendidas(Integer.parseInt(JOptionPane.showInputDialog("Unidades vendidas ", unidadesVendidas)));
-        lista.add(disco);
+        discos.add(disco);
 
     }
 
     public void guardaEnFichero(File fichero) {
         try (PrintWriter salida = new PrintWriter(fichero)) {
-            for (Disco v : lista
+            for (Disco v : discos
             ) {
                 salida.print(v.getNombreDisco() + DELIMITADOR + v.getUnidadesVendidas() + "\n");
             }
@@ -56,7 +56,7 @@ public class ListaDiscos {
                 posicionDelimitador = lineasFichero.get(i).indexOf(DELIMITADOR);
                 nombreDisco = lineasFichero.get(i).substring(0, posicionDelimitador);
                 unidadesVendidas = Integer.parseInt(lineasFichero.get(i).substring(posicionDelimitador + 1));
-                lista.add(new Disco(nombreDisco, unidadesVendidas));
+                discos.add(new Disco(nombreDisco, unidadesVendidas));
             }
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Introduzca un número correcto ");
