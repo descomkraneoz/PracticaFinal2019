@@ -3,6 +3,11 @@ import java.awt.*;
 
 public class PanelUsuario extends JFrame {
 
+    JLabel password = new JLabel("Password");
+    JPasswordField passwordField = new JPasswordField();
+    JButton nuevoUsuario = new JButton("Crear nuevo Usuario");
+    GridLayout filasColumnas = new GridLayout(2, 3);
+
     public PanelUsuario() {
         setSize(500, 500);
         setVisible(true);
@@ -10,6 +15,12 @@ public class PanelUsuario extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Ventana de Usuario");
+        filasColumnas.setColumns(2);
+        filasColumnas.setRows(2);
+        add(password);
+        add(passwordField);
+        add(nuevoUsuario);
+
     }
 
     public void centraPantalla() {
@@ -24,10 +35,10 @@ public class PanelUsuario extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    //video 57 de pildoras
 
     public static void main(String[] args) {
         PanelUsuario mi = new PanelUsuario();
-        mi.centraPantalla();
+        //mi.centraPantalla();
+        //mi.pack();
     }
 }
