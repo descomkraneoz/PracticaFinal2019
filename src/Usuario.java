@@ -3,8 +3,7 @@ import java.util.Objects;
 
 public class Usuario {
     private final String nombre;
-    private final String primerApellido;
-    private String segundoApellido;
+    private final String apellidos;
     private static int diaNacimiento;
     private static int mesNacimiento;
     private static int anyoNacimiento;
@@ -13,10 +12,9 @@ public class Usuario {
     private final ListaDePoetas lista = new ListaDePoetas();
 
 
-    public Usuario(String nombre, String primerApellido, String segundoApellido, int diaNacimiento, int mesNacimiento, int anyoNacimiento, String email, String password) {
+    public Usuario(String nombre, String apellidos, int diaNacimiento, int mesNacimiento, int anyoNacimiento, String email, String password) {
         this.nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
-        this.primerApellido = primerApellido.substring(0, 1).toUpperCase() + primerApellido.substring(1).toLowerCase();
-        this.segundoApellido = segundoApellido.substring(0, 1).toUpperCase() + segundoApellido.substring(1).toLowerCase();
+        this.apellidos = apellidos.substring(0, 1).toUpperCase() + apellidos.substring(1).toLowerCase();
         Usuario.diaNacimiento = diaNacimiento;
         Usuario.mesNacimiento = mesNacimiento;
         Usuario.anyoNacimiento = anyoNacimiento;
@@ -24,27 +22,14 @@ public class Usuario {
         this.password = password;
     }
 
-    public Usuario(String nombre, String primerApellido, int diaNacimiento, int mesNacimiento, int anyoNacimiento, String email, String password) {
-        this.nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
-        this.primerApellido = primerApellido.substring(0, 1).toUpperCase() + primerApellido.substring(1).toLowerCase();
-        Usuario.diaNacimiento = diaNacimiento;
-        Usuario.mesNacimiento = mesNacimiento;
-        Usuario.anyoNacimiento = anyoNacimiento;
-        this.email = email;
-        this.password = password;
+    public String getApellidos() {
+        return apellidos;
     }
 
     public String getNombre() {
         return nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
     }
 
-    public String getPrimerApellido() {
-        return primerApellido.substring(0, 1).toUpperCase() + primerApellido.substring(1).toLowerCase();
-    }
-
-    public String getSegundoApellido() {
-        return segundoApellido.substring(0, 1).toUpperCase() + segundoApellido.substring(1).toLowerCase();
-    }
 
     public String getEmail() {
         return email;
@@ -68,8 +53,7 @@ public class Usuario {
     public String toString() {
         return "Usuario{" +
                 "nombre='" + nombre + '\'' +
-                ", primerApellido='" + primerApellido + '\'' +
-                ", segundoApellido='" + segundoApellido + '\'' +
+                ", apellidos='" + apellidos + '\'' +
                 ", fechaNacimiento='" + getFechaNacimiento() + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -91,7 +75,7 @@ public class Usuario {
 
     public String info() {
         String salida = "";
-        salida += getNombre() + " " + getPrimerApellido() + " " + getSegundoApellido() + "\n";
+        salida += getNombre() + " " + getApellidos() + "\n";
         salida += " nacido el " + getFechaNacimiento() + "\n";
         salida += " correo electrónico " + getEmail();
         return salida;

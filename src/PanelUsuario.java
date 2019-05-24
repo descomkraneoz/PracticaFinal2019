@@ -1,27 +1,53 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PanelUsuario extends JPanel {
-    JLabel password = new JLabel("Password");
-    JPasswordField passwordField = new JPasswordField();
-    JButton nuevoUsuario = new JButton("Crear nuevo Usuario");
-    GridBagLayout gbl = new GridBagLayout();
+    JLabel password = new JLabel(" Introduce tu clave ");
+    JPasswordField passwordField = new JPasswordField("", 18);
+    JButton botonNuevoUsuario = new JButton("Crear nuevo Usuario");
+    String leido = "";
 
     public PanelUsuario() {
+        add(password);
+        add(passwordField);
+        add(botonNuevoUsuario);
+
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                pulsacion(e);
+            }
+        });
+
+        botonNuevoUsuario.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                nuevoUsuario(e);
+            }
+        });
+    }
+
+    private void pulsacion(KeyEvent e) {
+        this.leido += e.getKeyChar();
+        if (this.leido.length() == 10) {
+            this.setVisible(false);
+            //System.out.println(leido);
+        }
+    }
+
+    private void nuevoUsuario(KeyEvent e) {
+
 
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawString("Bienvenido al panel de usuario", 200, 200);
-    }
-
-    public static void main(String[] args) {
-        PanelUsuario miPanel = new PanelUsuario();
-        MarcoUsuario miMarco = new MarcoUsuario();
-        miMarco.add(miPanel);
-        miMarco.centrarMarco();
-
+    public String getLectura() {
+        String salida = leido;
+        leido = "";
+        return salida;
     }
 
 }
