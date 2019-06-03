@@ -15,7 +15,7 @@ public class ListaDiscos implements Utilizable {
         discos = new ArrayList<>();
     }
 
-    public String muestraTodos() {
+    public String info() {
         String salida = "";
         for (Disco d : discos
         ) {
@@ -34,7 +34,7 @@ public class ListaDiscos implements Utilizable {
 
     }
 
-    public void guardaEnFichero(File fichero) {
+    public void escribeEnFichero(File fichero) {
         try (PrintWriter salida = new PrintWriter(fichero)) {
             for (Disco v : discos
             ) {

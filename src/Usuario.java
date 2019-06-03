@@ -1,57 +1,73 @@
+import java.io.*;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.*;
 
-public class Usuario {
+public class Usuario implements Utilizable {
+    public static final int CANTIDAD_DE_NUMEROS_IDENTIFICACION = 10;
+    public static int LINEAS_DE_LECTURA = 6;
+    private final String ID_Usuario;
     private final String nombre;
-    private final String primerApellido;
-    private String segundoApellido;
+    private final String apellidos;
+    private final String correoElectronico;
     private static int diaNacimiento;
     private static int mesNacimiento;
     private static int anyoNacimiento;
-    private final String email;
-    private final String password;
-    private final ListaDePoetas lista = new ListaDePoetas();
+    private static LocalDate fechaDeRegistro;
+    private ListaDePoetas listaUsuario;
 
-
-    public Usuario(String nombre, String primerApellido, String segundoApellido, int diaNacimiento, int mesNacimiento, int anyoNacimiento, String email, String password) {
-        this.nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
-        this.primerApellido = primerApellido.substring(0, 1).toUpperCase() + primerApellido.substring(1).toLowerCase();
-        this.segundoApellido = segundoApellido.substring(0, 1).toUpperCase() + segundoApellido.substring(1).toLowerCase();
+    public Usuario(String ID_Usuario, String nombre, String apellidos, String correoElectronico, int diaNacimiento,
+                   int mesNacimiento, int anyoNacimiento, String ficheroDeGuardado) {
+        if (ID_Usuario.length() != CANTIDAD_DE_NUMEROS_IDENTIFICACION) {
+            throw new IllegalArgumentException("El  identificador de usuario ha de tener 10 carácteres");
+        }
+        this.ID_Usuario = ID_Usuario;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.correoElectronico = correoElectronico;
         Usuario.diaNacimiento = diaNacimiento;
         Usuario.mesNacimiento = mesNacimiento;
         Usuario.anyoNacimiento = anyoNacimiento;
-        this.email = email;
-        this.password = password;
+        Usuario.fechaDeRegistro = LocalDate.now();
+        if (ficheroDeGuardado == "" || ficheroDeGuardado == null || !Paths.get(ficheroDeGuardado).toFile().exists()) {
+            this.listaUsuario = new ListaDePoetas(ID_Usuario);
+        } else {
+            this.listaUsuario = listaUsuario.leer(Paths.get(ID_Usuario).toFile());
+        }
     }
 
-    public Usuario(String nombre, String primerApellido, int diaNacimiento, int mesNacimiento, int anyoNacimiento, String email, String password) {
-        this.nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
-        this.primerApellido = primerApellido.substring(0, 1).toUpperCase() + primerApellido.substring(1).toLowerCase();
+    public Usuario(String ID_Usuario, String nombre, String apellidos, String correoElectronico, int diaNacimiento,
+                   int mesNacimiento, int anyoNacimiento) {
+        this.ID_Usuario = ID_Usuario;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.correoElectronico = correoElectronico;
         Usuario.diaNacimiento = diaNacimiento;
         Usuario.mesNacimiento = mesNacimiento;
         Usuario.anyoNacimiento = anyoNacimiento;
-        this.email = email;
-        this.password = password;
+        Usuario.fechaDeRegistro = LocalDate.now();
     }
+
 
     public String getNombre() {
-        return nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
+        return nombre;
     }
 
-    public String getPrimerApellido() {
-        return primerApellido.substring(0, 1).toUpperCase() + primerApellido.substring(1).toLowerCase();
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public String getSegundoApellido() {
-        return segundoApellido.substring(0, 1).toUpperCase() + segundoApellido.substring(1).toLowerCase();
+    public String getCorreoElectronico() {
+        return correoElectronico;
     }
 
-    public String getEmail() {
-        return email;
+    public ListaDePoetas getListaDePoetas() {
+        return listaUsuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getID_Usuario() {
+        return ID_Usuario;
     }
 
     public LocalDate getFechaNacimiento() {
@@ -59,21 +75,8 @@ public class Usuario {
         return fechaNac;
     }
 
-    public ListaDePoetas getLista() {
-        return lista;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "nombre='" + nombre + '\'' +
-                ", primerApellido='" + primerApellido + '\'' +
-                ", segundoApellido='" + segundoApellido + '\'' +
-                ", fechaNacimiento='" + getFechaNacimiento() + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public LocalDate getFechaDeRegistro() {
+        return fechaDeRegistro;
     }
 
     @Override
@@ -81,20 +84,36 @@ public class Usuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return email.equals(usuario.email);
+        return ID_Usuario == usuario.ID_Usuario;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(ID_Usuario);
     }
 
+
+    @Override
     public String info() {
         String salida = "";
-        salida += getNombre() + " " + getPrimerApellido() + " " + getSegundoApellido() + "\n";
-        salida += " nacido el " + getFechaNacimiento() + "\n";
-        salida += " correo electrónico " + getEmail();
+        salida += this.ID_Usuario + " \n";
+        salida += this.nombre + " \n";
+        salida += this.apellidos + " \n";
+        salida += this.correoElectronico + " \n";
+        salida += getFechaNacimiento() + " \n";
+        salida += this.fechaDeRegistro + " \n";
         return salida;
+    }
+
+    @Override
+    public void escribeEnFichero(File fichero) {
+        try (FileWriter fw = new FileWriter(fichero)) {
+            fw.write(this.info());
+            listaUsuario.escribir();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
 }

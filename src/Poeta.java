@@ -15,13 +15,32 @@ public class Poeta {
     private static int diaDEP;
     private static int mesDEP;
     private static int anyoDEP;
+    private String versoConocido;
 
     enum Sexo {
         HOMBRE, MUJER;
     }
 
-    public Poeta(String nombre, String apellido1,String apellido2, String pseudonimo, Sexo sexo, String nacionalidad, int diaNacimiento, int mesNacimiento, int anyoNacimiento, int diaDEP, int mesDEP, int anyoDEP) {
+    public Poeta(String nombre, String apellido1, String apellido2, String pseudonimo, Sexo sexo,
+                 String nacionalidad, int diaNacimiento, int mesNacimiento, int anyoNacimiento, int diaDEP, int mesDEP, int anyoDEP, String versoConocido) {
         this.nombre=nombre.substring(0,1).toUpperCase()+nombre.substring(1).toLowerCase();
+        this.primerApellido = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
+        this.segundoApellido = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
+        this.pseudonimo = pseudonimo;
+        this.sexo = sexo;
+        this.nacionalidad = nacionalidad;
+        Poeta.diaNacimiento = diaNacimiento;
+        Poeta.mesNacimiento = mesNacimiento;
+        Poeta.anyoNacimiento = anyoNacimiento;
+        Poeta.diaDEP = diaDEP;
+        Poeta.mesDEP = mesDEP;
+        Poeta.anyoDEP = anyoDEP;
+        this.versoConocido = versoConocido;
+    }
+
+    public Poeta(String nombre, String apellido1, String apellido2, String pseudonimo, Sexo sexo,
+                 String nacionalidad, int diaNacimiento, int mesNacimiento, int anyoNacimiento, int diaDEP, int mesDEP, int anyoDEP) {
+        this.nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
         this.primerApellido = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
         this.segundoApellido = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
         this.pseudonimo = pseudonimo;
@@ -35,8 +54,23 @@ public class Poeta {
         Poeta.anyoDEP = anyoDEP;
     }
 
-    public Poeta(String nombre, String apellido1,String apellido2, String pseudonimo, Sexo sexo, String nacionalidad, int diaNacimiento, int mesNacimiento, int anyoNacimiento) {
+    public Poeta(String nombre, String apellido1, String apellido2, String pseudonimo, Sexo sexo, String nacionalidad,
+                 int diaNacimiento, int mesNacimiento, int anyoNacimiento, String versoConocido) {
         this.nombre=nombre.substring(0,1).toUpperCase()+nombre.substring(1).toLowerCase();
+        this.primerApellido = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
+        this.segundoApellido = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
+        this.pseudonimo = pseudonimo;
+        this.sexo = sexo;
+        this.nacionalidad = nacionalidad;
+        Poeta.diaNacimiento = diaNacimiento;
+        Poeta.mesNacimiento = mesNacimiento;
+        Poeta.anyoNacimiento = anyoNacimiento;
+        this.versoConocido = versoConocido;
+    }
+
+    public Poeta(String nombre, String apellido1, String apellido2, String pseudonimo, Sexo sexo, String nacionalidad,
+                 int diaNacimiento, int mesNacimiento, int anyoNacimiento) {
+        this.nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1).toLowerCase();
         this.primerApellido = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
         this.segundoApellido = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
         this.pseudonimo = pseudonimo;
@@ -47,18 +81,17 @@ public class Poeta {
         Poeta.anyoNacimiento = anyoNacimiento;
     }
 
-    public Poeta(String nombre, String apellido1){
+    public Poeta(String nombre, String apellido1, String versoConocido) {
         this.nombre=nombre.substring(0,1).toUpperCase()+nombre.substring(1).toLowerCase();
         this.primerApellido = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
-
+        this.versoConocido = versoConocido;
     }
 
-    public Poeta(String nombre, String apellido1,String apellido2){
+    public Poeta(String nombre, String apellido1) {
         this.nombre=nombre.substring(0,1).toUpperCase()+nombre.substring(1).toLowerCase();
         this.primerApellido = apellido1.substring(0, 1).toUpperCase() + apellido1.substring(1).toLowerCase();
-        this.segundoApellido = apellido2.substring(0, 1).toUpperCase() + apellido2.substring(1).toLowerCase();
-
     }
+
 
     public String getNombre() {
         return nombre;
@@ -117,8 +150,27 @@ public class Poeta {
         return nacionalidad;
     }
 
-    public String versoConocido(String verso) {
-        return verso;
+    public String getVersoConocido() {
+        return versoConocido;
+    }
+
+    public void setVersoConocido(String versoConocido) {
+        this.versoConocido = versoConocido;
+    }
+
+    public String infoCorta() {
+        String salida = "";
+        salida += "El poeta " + getNombre() + " " + getPrimerApellido() + "\n";
+        salida += "dijo en una ocasión: " + getVersoConocido() + "\n";
+        return salida;
+    }
+
+    public String infoLarga() {
+        String salida = "";
+        salida += infoCorta();
+        salida += "más datos de interés: " + getSexo() + " " + getNacionalidad() + "\n";
+        salida += "edad actual " + getEdadActual() + "\n";
+        return salida;
     }
 
     @Override
@@ -131,6 +183,7 @@ public class Poeta {
                 ", sexo=" + sexo +
                 ", edad=" + edad +
                 ", nacionalidad='" + nacionalidad + '\'' +
+                ", versoConocido='" + versoConocido + '\'' +
                 '}';
     }
 

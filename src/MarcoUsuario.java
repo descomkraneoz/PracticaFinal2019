@@ -28,7 +28,8 @@ public class MarcoUsuario extends JFrame {
         PanelUsuario miPanel = new PanelUsuario();
         MarcoUsuario miMarco = new MarcoUsuario();
         miMarco.add(miPanel);
-        miMarco.centrarMarco();
+        //miMarco.centrarMarco();
+        miMarco.pack();
 
 
     }
