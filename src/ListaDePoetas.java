@@ -1,14 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class ListaDePoetas implements Serializable {
+public class ListaDePoetas implements Serializable, Utilizable {
     private final List<Poeta> listaPoetas;
     private final File ficheroDeGuardadoPoetas;
 
-    ListaDePoetas(String ID) {
-        ficheroDeGuardadoPoetas = new File(ID);
+    ListaDePoetas(String ID_Usuario) {
+        ficheroDeGuardadoPoetas = new File(ID_Usuario);
         listaPoetas = new ArrayList<>();
-
     }
 
     public void anyadirPoeta(Poeta PoetaNuevo) {
@@ -22,8 +21,25 @@ public class ListaDePoetas implements Serializable {
         listaPoetas.remove(poeta);
     }
 
+    public List<Poeta> getLista() {
+        return listaPoetas;
+    }
 
-    public void escribir() {
+    public String info() {
+        String salida = "";
+        if (listaPoetas.size() == 0) {
+            return "No hay poetas en tu lista";
+        } else {
+            for (Poeta p : listaPoetas) {
+                salida += p.infoCorta();
+            }
+        }
+        return salida;
+    }
+
+
+    public void guardaEnFichero(File fichero) {
+        fichero = ficheroDeGuardadoPoetas;
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ficheroDeGuardadoPoetas))) {
             oos.writeObject(this);
         } catch (FileNotFoundException e) {
@@ -33,12 +49,8 @@ public class ListaDePoetas implements Serializable {
         }
     }
 
-    public List<Poeta> getLista() {
-        return listaPoetas;
-    }
 
-
-    public ListaDePoetas leer(File fichero) {
+    public ListaDePoetas leerDeFichero(File fichero) {
         ListaDePoetas nuevaLista = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichero))) {
             nuevaLista = (ListaDePoetas) ois.readObject();

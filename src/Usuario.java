@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public class Usuario implements Utilizable {
         if (ficheroDeGuardado == "" || ficheroDeGuardado == null || !Paths.get(ficheroDeGuardado).toFile().exists()) {
             this.listaUsuario = new ListaDePoetas(ID_Usuario);
         } else {
-            this.listaUsuario = listaUsuario.leer(Paths.get(ID_Usuario).toFile());
+            this.listaUsuario = listaUsuario.leerDeFichero(Paths.get(ID_Usuario).toFile());
         }
     }
 
@@ -107,13 +108,18 @@ public class Usuario implements Utilizable {
     }
 
     @Override
-    public void escribeEnFichero(File fichero) {
+    public void guardaEnFichero(File fichero) {
         try (FileWriter fw = new FileWriter(fichero)) {
             fw.write(this.info());
-            listaUsuario.escribir();
+            listaUsuario.guardaEnFichero(fichero);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+    }
+
+    @Override
+    public Object leerDeFichero(File file) {
+        return null;
     }
 
 }

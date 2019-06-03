@@ -34,8 +34,8 @@ public class ListaDiscos implements Utilizable {
 
     }
 
-    public void escribeEnFichero(File fichero) {
-        try (PrintWriter salida = new PrintWriter(fichero)) {
+    public void escribeEnFichero() {
+        try (PrintWriter salida = new PrintWriter("listaDiscos.obj")) {
             for (Disco v : discos
             ) {
                 salida.print(v.getNombreDisco() + DELIMITADOR + v.getUnidadesVendidas() + "\n");
@@ -45,13 +45,13 @@ public class ListaDiscos implements Utilizable {
         }
     }
 
-    public void leeDeFichero(File fichero) {
-
+    public void leeDeFichero() {
+        Files fichero = new Files();
         String nombreDisco;
         int unidadesVendidas;
         int posicionDelimitador;
         try {
-            List<String> lineasFichero = Files.readAllLines(fichero.toPath());
+            List<String> lineasFichero = Files.readAllLines(fichero.toPath(fichero));
             for (int i = 0; i < lineasFichero.size(); i++) {
                 posicionDelimitador = lineasFichero.get(i).indexOf(DELIMITADOR);
                 nombreDisco = lineasFichero.get(i).substring(0, posicionDelimitador);

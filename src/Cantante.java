@@ -29,7 +29,7 @@ public class Cantante extends Poeta {
     public String info() {
         String salida = "";
         salida += "El cantante " + super.getNombre() + " " + super.getPrimerApellido() + "\n";
-        salida += "discos: " + listadoDiscos.muestraTodos();
+        salida += "discos: " + listadoDiscos.info();
         return salida;
     }
 

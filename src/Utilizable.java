@@ -1,13 +1,12 @@
 import java.io.File;
-import java.io.IOException;
 
 public interface Utilizable {
 
     public String info();
 
-    public void escribeEnFichero(File file) throws IOException;
+    public void guardaEnFichero(File file);
 
-    public void leeDeFichero(File fichero);
+    public Object leerDeFichero(File file);
 
-    public void pideYAnyade();
+
 }

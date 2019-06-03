@@ -10,7 +10,7 @@ public class ListaDeUsuario {
 
     {
         if (ficheroDeGuardadoUsuarios.exists()) {
-            this.leer();
+            this.leerFichero();
         }
     }
 
@@ -35,19 +35,19 @@ public class ListaDeUsuario {
         usuarios.remove(usuario);
     }
 
-    public boolean estaElUsuario(String numerodeUsuario) {
-        return usuarios.containsKey(numerodeUsuario);
+    public boolean estaElUsuario(String numeroDeUsuario) {
+        return usuarios.containsKey(numeroDeUsuario);
     }
 
-    public void escribir() throws IOException {
+    public void escribirEnFichero(File fichero) throws IOException {
         Iterator<String> iterator = usuarios.keySet().iterator();
         while (iterator.hasNext()) {
-            usuarios.get(iterator.next()).escribeEnFichero(ficheroDeGuardadoUsuarios);
+            usuarios.get(iterator.next()).leerDeFichero(ficheroDeGuardadoUsuarios);
         }
     }
 
 
-    public void leer() {
+    public void leerFichero() {
         try {
             List<String> lineas = Files.readAllLines(ficheroDeGuardadoUsuarios.toPath());
             Iterator<String> iterator = lineas.iterator();
@@ -56,7 +56,6 @@ public class ListaDeUsuario {
             while (iterator.hasNext()) {
                 for (int i = 0; i < Usuario.LINEAS_DE_LECTURA; i++) {
                     lineasDelUsuarioActual[i] = iterator.next();
-
                 }
                 usuarios.put(lineasDelUsuarioActual[0], new Usuario(lineasDelUsuarioActual[0], lineasDelUsuarioActual[1], lineasDelUsuarioActual[2],
                         lineasDelUsuarioActual[3], fechaDelUsuario[4], fechaDelUsuario[5], fechaDelUsuario[6]));
