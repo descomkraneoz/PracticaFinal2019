@@ -52,8 +52,6 @@ public class DialogoNuevoUsuario extends JDialog {
     }
 
     private void estiloBoton() {
-
-
         aceptar.setBounds(150, 100, 150, 40);
         aceptar.setFont(new Font("cooper light", Font.BOLD, 15));
         aceptar.setBackground(Color.BLUE);
@@ -76,12 +74,24 @@ public class DialogoNuevoUsuario extends JDialog {
         listaTexto.add(textoAnio);
         for (JLabel j : listaTexto) {
             j.setFont(new Font("Verdana", 0, 15));
+            j.setBackground(new Color(255, 23, 83, 100));
         }
         textoFecha.setFont(new Font("Verdana", Font.ITALIC, 15));
+
 
     }
 
     private void estiloJTextField() {
-        //nombre.setBackground(Color.GREEN);
+        List<JTextField> listaField = new ArrayList();
+        listaField.add(nombre);
+        listaField.add(apellidos);
+        listaField.add(correo);
+        listaField.add(diaNacimiento);
+        listaField.add(mesNacimiento);
+        listaField.add(anyoNacimiento);
+        for (JTextField j : listaField) {
+            j.setFont(new Font("Verdana", 0, 15));
+            j.setBackground(new Color(255, 23, 83, 100));
+        }
     }
 }
