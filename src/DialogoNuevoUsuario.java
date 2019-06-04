@@ -3,44 +3,46 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/*public class DialogoNuevoUsuario extends JDialog {
-    private final JLabel nombre = new JLabel();
-    private final JLabel primerApellido = new JLabel();
-    private final JLabel segundoApellido = new JLabel();
-    private final JLabel email = new JLabel();
-    private final JLabel fechaDeNacimiento = new JLabel();
+public class DialogoNuevoUsuario extends JDialog {
+    private final JTextField nombre = new JTextField();
+    private final JTextField apellidos = new JTextField();
+    private final JTextField correo = new JTextField();
+    private final JTextField diaNacimiento = new JTextField("dd");
+    private final JTextField mesNacimiento = new JTextField("mm");
+    private final JTextField anyoNacimiento = new JTextField("aaaa");
+    private final JButton aceptar = new JButton("Aceptar");
 
     DialogoNuevoUsuario() {
         setLayout(new GridLayout(0, 2));
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setTitle("Nuevo Usuario");
         add(new JLabel("Nombre: "));
         add(nombre);
-        add(new JLabel("Primer Apellido: "));
-        add(primerApellido);
-        add(new JLabel("Segundo Apellido: "));
-        add(segundoApellido);
+        add(new JLabel("Apellidos: "));
+        add(apellidos);
         add(new JLabel("Correo electronico:"));
-        add(email);
-        add(new JLabel("Fecha de nacimiento:"));
-        add(fechaDeNacimiento);
-
-        fechaDeNacimiento.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char entrada = e.getKeyChar();
-                if (entrada < '0' || entrada > '9' || !"/".equals(entrada)) {
-                    e.consume();
-                }
-
-            }
-        });
+        add(correo);
+        add(new JLabel("Día de nacimiento:"));
+        add(diaNacimiento);
+        add(new JLabel("Mes de nacimiento:"));
+        add(mesNacimiento);
+        add(new JLabel("Año de nacimiento:"));
+        add(anyoNacimiento);
+        add(aceptar);
+        colocarBoton();
+        pack();
     }
 
-    public Usuario getUsuario() {
-        return new Usuario(getNumeroUsuario(),
-                nombreYApellido.getText().substring(0, nombreYApellido.getText().indexOf(' ')),
-                nombreYApellido.getText().substring(nombreYApellido.getText().indexOf(' ')),
-                correoElectronico.getText(),
-                fechaDeNacimiento.getText());
+    private void colocarBoton() {
+        aceptar.setBounds(150, 100, 150, 40);
+        aceptar.setFont(new Font("arial", 0, 15));
     }
 
-}*/
+    public static void main(String[] args) {
+        DialogoNuevoUsuario d = new DialogoNuevoUsuario();
+    }
+
+}
