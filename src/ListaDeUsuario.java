@@ -60,9 +60,11 @@ public class ListaDeUsuario implements Utilizable {
 
     @Override
     public void guardaEnFichero(File fichero) {
+        Usuario u = new Usuario(null, null, null, 0, 0, 0);
         fichero = FICHERO_GUARDADO_USUARIOS;
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FICHERO_GUARDADO_USUARIOS))) {
-            oos.writeObject(this);
+        try (FileWriter fw = new FileWriter(FICHERO_GUARDADO_USUARIOS)) {
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(u);
         } catch (FileNotFoundException e) {
             new IllegalArgumentException("No se pudo leer la lista de Usuarios correctamente ya que no se encontró el fichero.");
         } catch (IOException e) {

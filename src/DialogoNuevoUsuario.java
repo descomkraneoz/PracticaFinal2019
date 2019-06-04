@@ -6,12 +6,16 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DialogoNuevoUsuario extends JDialog {
+    File file = new File("usuarios.txt");
     private final JTextField nombre = new JTextField();
     private final JTextField apellidos = new JTextField();
     private final JTextField correo = new JTextField();
@@ -67,9 +71,19 @@ public class DialogoNuevoUsuario extends JDialog {
         ActionListener oyenteAceptar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Usuario u = new Usuario(nombre.getText(), apellidos.getText(), correo.getText(), Integer.parseInt(diaNacimiento.getText()),
-                        Integer.parseInt(mesNacimiento.getText()), Integer.parseInt(anyoNacimiento.getText()), "usuarios.txt");
-                System.out.println(u.infoUsuario());
+                        Integer.parseInt(mesNacimiento.getText()), Integer.parseInt(anyoNacimiento.getText()));
+                //System.out.println(u.infoUsuario());
+                u.infoUsuario();
+                ListaDeUsuario lista = new ListaDeUsuario();
+                if (lista.estaElUsuario(u.getID_Usuario())) {
+                    lista.anyadirUsuario(u);
+                    lista.guardaEnFichero(file); //falla aqui
+                } else {
+                    lista.elegirUsuario(u.getID_Usuario());
+                    System.out.println(lista.info());
+                }
             }
         };
         aceptar.addActionListener(oyenteAceptar);
@@ -95,15 +109,13 @@ public class DialogoNuevoUsuario extends JDialog {
         for (JButton j : listaBoton) {
             j.setBounds(150, 100, 150, 40);
             j.setFont(new Font("cooper light", Font.BOLD, 15));
-            j.setBackground(Color.BLUE);
-            j.setForeground(Color.YELLOW);
+            j.setBackground(new Color(255, 23, 83, 100));
+            j.setForeground(Color.BLUE);
             Border linea = new LineBorder(Color.BLACK);
             Border margen = new EmptyBorder(5, 15, 5, 15);
             Border componentes = new CompoundBorder(linea, margen);
             j.setBorder(componentes);
         }
-
-
     }
 
     private void estiloJLabel() {
@@ -132,7 +144,7 @@ public class DialogoNuevoUsuario extends JDialog {
         listaField.add(anyoNacimiento);
         for (JTextField j : listaField) {
             j.setFont(new Font("Verdana", 0, 15));
-            //j.setBackground(new Color(255, 23, 83, 100));
+            j.setForeground(new Color(255, 23, 83, 100));
         }
     }
 
