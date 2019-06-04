@@ -52,14 +52,17 @@ public class DialogoNuevoUsuario extends JDialog {
     }
 
     private void estiloBoton() {
+
+
         aceptar.setBounds(150, 100, 150, 40);
-        aceptar.setFont(new Font("arial", Font.BOLD, 15));
+        aceptar.setFont(new Font("cooper light", Font.BOLD, 15));
         aceptar.setBackground(Color.BLUE);
         aceptar.setForeground(Color.YELLOW);
         Border linea = new LineBorder(Color.BLACK);
         Border margen = new EmptyBorder(5, 15, 5, 15);
         Border componentes = new CompoundBorder(linea, margen);
         aceptar.setBorder(componentes);
+
     }
 
     private void estiloJLabel() {
