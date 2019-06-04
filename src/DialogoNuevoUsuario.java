@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class DialogoNuevoUsuario extends JDialog {
+/*public class DialogoNuevoUsuario extends JDialog {
     private final JLabel nombre = new JLabel();
     private final JLabel primerApellido = new JLabel();
     private final JLabel segundoApellido = new JLabel();
@@ -43,4 +43,4 @@ public class DialogoNuevoUsuario extends JDialog {
                 fechaDeNacimiento.getText());
     }
 
-}
+}*/

@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ public class ListaDiscos implements Utilizable {
         discos = new ArrayList<>();
     }
 
+    @Override
     public String info() {
         String salida = "";
         for (Disco d : discos
@@ -24,18 +22,9 @@ public class ListaDiscos implements Utilizable {
         return salida;
     }
 
-    public void pideYAnyade() {
-        Disco disco = new Disco("prueba", 0);
-        String nombre = "";
-        int unidadesVendidas = 0;
-        disco.setNombreDisco(JOptionPane.showInputDialog("Introduce título: ", nombre.toUpperCase()));
-        disco.setUnidadesVendidas(Integer.parseInt(JOptionPane.showInputDialog("Unidades vendidas ", unidadesVendidas)));
-        discos.add(disco);
-
-    }
-
-    public void escribeEnFichero() {
-        try (PrintWriter salida = new PrintWriter("listaDiscos.obj")) {
+    @Override
+    public void guardaEnFichero(File file) {
+        try (PrintWriter salida = new PrintWriter(file)) {
             for (Disco v : discos
             ) {
                 salida.print(v.getNombreDisco() + DELIMITADOR + v.getUnidadesVendidas() + "\n");
@@ -43,15 +32,18 @@ public class ListaDiscos implements Utilizable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
-    public void leeDeFichero() {
-        Files fichero = new Files();
+    @Override
+    public Object leerDeFichero(File file) {
+        ListaDiscos nuevaLista = null;
         String nombreDisco;
         int unidadesVendidas;
         int posicionDelimitador;
-        try {
-            List<String> lineasFichero = Files.readAllLines(fichero.toPath(fichero));
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            nuevaLista = (ListaDiscos) ois.readObject();
+            List<String> lineasFichero = Files.readAllLines(file.toPath());
             for (int i = 0; i < lineasFichero.size(); i++) {
                 posicionDelimitador = lineasFichero.get(i).indexOf(DELIMITADOR);
                 nombreDisco = lineasFichero.get(i).substring(0, posicionDelimitador);
@@ -65,7 +57,20 @@ public class ListaDiscos implements Utilizable {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (StringIndexOutOfBoundsException siobe) {
             JOptionPane.showMessageDialog(null, "Error en la lectura del fichero, puede que el delimitador no sea el correcto (;)");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+        return nuevaLista;
+    }
+
+    public void pideYAnyade() {
+        Disco disco = new Disco("prueba", 0);
+        String nombre = "";
+        int unidadesVendidas = 0;
+        disco.setNombreDisco(JOptionPane.showInputDialog("Introduce título: ", nombre.toUpperCase()));
+        disco.setUnidadesVendidas(Integer.parseInt(JOptionPane.showInputDialog("Unidades vendidas ", unidadesVendidas)));
+        discos.add(disco);
+
     }
 
 

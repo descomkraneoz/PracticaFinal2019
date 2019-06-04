@@ -1,13 +1,11 @@
-import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Usuario implements Utilizable {
+public class Usuario {
     public static final int CANTIDAD_DE_NUMEROS_IDENTIFICACION = 10;
-    public static int LINEAS_DE_LECTURA = 6;
+    public static final int LINEAS_DE_LECTURA = 6;
+    public static String NUMEROS = "0123456789";
     private final String ID_Usuario;
     private final String nombre;
     private final String apellidos;
@@ -18,12 +16,13 @@ public class Usuario implements Utilizable {
     private static LocalDate fechaDeRegistro;
     private ListaDePoetas listaUsuario;
 
-    public Usuario(String ID_Usuario, String nombre, String apellidos, String correoElectronico, int diaNacimiento,
+
+    public Usuario(String nombre, String apellidos, String correoElectronico, int diaNacimiento,
                    int mesNacimiento, int anyoNacimiento, String ficheroDeGuardado) {
+        this.ID_Usuario = getGenerarID_Usuario();
         if (ID_Usuario.length() != CANTIDAD_DE_NUMEROS_IDENTIFICACION) {
             throw new IllegalArgumentException("El  identificador de usuario ha de tener 10 carácteres");
         }
-        this.ID_Usuario = ID_Usuario;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.correoElectronico = correoElectronico;
@@ -38,9 +37,9 @@ public class Usuario implements Utilizable {
         }
     }
 
-    public Usuario(String ID_Usuario, String nombre, String apellidos, String correoElectronico, int diaNacimiento,
+    public Usuario(String nombre, String apellidos, String correoElectronico, int diaNacimiento,
                    int mesNacimiento, int anyoNacimiento) {
-        this.ID_Usuario = ID_Usuario;
+        this.ID_Usuario = getGenerarID_Usuario();
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.correoElectronico = correoElectronico;
@@ -80,23 +79,15 @@ public class Usuario implements Utilizable {
         return fechaDeRegistro;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        return ID_Usuario == usuario.ID_Usuario;
+    public static String getGenerarID_Usuario() {
+        String psw = "";
+        for (int i = 0; i < CANTIDAD_DE_NUMEROS_IDENTIFICACION; i++) {
+            psw += (NUMEROS.charAt((int) (Math.random() * CANTIDAD_DE_NUMEROS_IDENTIFICACION)));
+        }
+        return psw;
     }
 
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ID_Usuario);
-    }
-
-
-    @Override
-    public String info() {
+    public String infoUsuario() {
         String salida = "";
         salida += this.ID_Usuario + " \n";
         salida += this.nombre + " \n";
@@ -108,18 +99,16 @@ public class Usuario implements Utilizable {
     }
 
     @Override
-    public void guardaEnFichero(File fichero) {
-        try (FileWriter fw = new FileWriter(fichero)) {
-            fw.write(this.info());
-            listaUsuario.guardaEnFichero(fichero);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return ID_Usuario == usuario.ID_Usuario;
     }
 
     @Override
-    public Object leerDeFichero(File file) {
-        return null;
+    public int hashCode() {
+        return Objects.hash(ID_Usuario);
     }
 
 }

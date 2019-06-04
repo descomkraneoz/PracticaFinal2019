@@ -24,6 +24,6 @@ public class Prueba {
         Disco p = new Disco("mar de espinas", 50);
         fulano.listadoDiscos.pideYAnyade();
         fulano.listadoDiscos.discos.add(p);
-        System.out.println(fulano.info() + fulano.listadoDiscos.muestraTodos());
+        System.out.println(fulano.info() + fulano.listadoDiscos.info());
     }
 }
