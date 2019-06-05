@@ -4,11 +4,11 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,50 +40,15 @@ public class DialogoNuevoUsuario extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Nuevo Usuario");
         anyadeComponentes();
-        estilos();
+        anyadeEstilos();
         evitaLetrasEnJTextField();
+        EventoCorreo ec = new EventoCorreo();
+        correo.addFocusListener(ec);
+        EventoCancelar eb = new EventoCancelar();
+        cancelar.addActionListener(eb);
+        EventoAceptar ea = new EventoAceptar();
+        aceptar.addActionListener(ea);
         pack();
-
-        ActionListener oyenteCorreo = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                validarEmail(correo.getText());
-            }
-        };
-        correo.addActionListener(oyenteCorreo);
-
-        ActionListener oyenteAceptar = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Usuario u = new Usuario(nombre.getText(), apellidos.getText(), correo.getText(), Integer.parseInt(diaNacimiento.getText()),
-                        Integer.parseInt(mesNacimiento.getText()), Integer.parseInt(anyoNacimiento.getText()));
-                //System.out.println(u.infoUsuario());
-                u.infoUsuario();
-                ListaDeUsuario lista = new ListaDeUsuario();
-                if (lista.estaElUsuario(u.getID_Usuario())) {
-                    lista.anyadirUsuario(u);
-                    lista.guardaEnFichero(file); //falla aqui
-                } else {
-                    lista.elegirUsuario(u.getID_Usuario());
-                    System.out.println(lista.info());
-                }
-            }
-        };
-        aceptar.addActionListener(oyenteAceptar);
-
-        ActionListener oyenteCancelar = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nombre.setText(null);
-                apellidos.setText(null);
-                correo.setText(null);
-                diaNacimiento.setText(null);
-                mesNacimiento.setText(null);
-                anyoNacimiento.setText(null);
-            }
-        };
-        cancelar.addActionListener(oyenteCancelar);
     }
 
     private void anyadeComponentes() {
@@ -151,7 +116,7 @@ public class DialogoNuevoUsuario extends JDialog {
         }
     }
 
-    private void estilos() {
+    private void anyadeEstilos() {
         estiloBoton();
         estiloJLabel();
         estiloJTextField();
@@ -186,4 +151,50 @@ public class DialogoNuevoUsuario extends JDialog {
         evitaLetras(anyoNacimiento);
     }
 
+    private void guardaUsuario(String infoUsuario, File file) throws IOException {
+        FileWriter fw = new FileWriter(file.getPath(), true);
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(infoUsuario);
+        pw.close();
+    }
+
+    private class EventoCorreo extends FocusAdapter {
+
+        public void focusLost(FocusEvent e) {
+            validarEmail(correo.getText());
+        }
+    }
+
+    private class EventoCancelar implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            nombre.setText(null);
+            apellidos.setText(null);
+            correo.setText(null);
+            diaNacimiento.setText(null);
+            mesNacimiento.setText(null);
+            anyoNacimiento.setText(null);
+        }
+    }
+
+    private class EventoAceptar implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Usuario u = new Usuario(
+                    nombre.getText(),
+                    apellidos.getText(),
+                    correo.getText(),
+                    Integer.parseInt(diaNacimiento.getText()),
+                    Integer.parseInt(mesNacimiento.getText()),
+                    Integer.parseInt(anyoNacimiento.getText())
+            );
+            try {
+                guardaUsuario(u.infoUsuario(), file);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            cancelar.doClick(2);
+        }
+    }
 }
