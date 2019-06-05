@@ -47,7 +47,7 @@ public class PanelUsuario extends JPanel {
         estiloJtextField();
         passwordField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(KeyEvent e) { //evita que introduzcan letras
                 super.keyTyped(e);
                 char entradaPass = e.getKeyChar();
                 if (entradaPass < '0' || entradaPass > '9') {
@@ -60,14 +60,16 @@ public class PanelUsuario extends JPanel {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 if (passwordField.getUIClassID().length() == 9) {
-
+                    System.out.println("probando este campo");
                 }
             }
         });
+
         ActionListener oyenteBoton = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DialogoNuevoUsuario dnu = new DialogoNuevoUsuario();
+
             }
         };
         nuevoUsuario.addActionListener(oyenteBoton);

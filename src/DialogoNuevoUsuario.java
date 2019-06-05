@@ -6,8 +6,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,25 +39,9 @@ public class DialogoNuevoUsuario extends JDialog {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Nuevo Usuario");
-        add(textoNombre);
-        add(nombre);
-        add(textoApellidos);
-        add(apellidos);
-        add(textoCorreo);
-        add(correo);
-        add(textoFecha);
-        add(new JLabel(""));
-        add(textoDia);
-        add(diaNacimiento);
-        add(textoMes);
-        add(mesNacimiento);
-        add(textoAnio);
-        add(anyoNacimiento);
-        add(aceptar);
-        add(cancelar);
-        estiloBoton();
-        estiloJLabel();
-        estiloJTextField();
+        anyadeComponentes();
+        estilos();
+        evitaLetrasEnJTextField();
         pack();
 
         ActionListener oyenteCorreo = new ActionListener() {
@@ -100,6 +84,25 @@ public class DialogoNuevoUsuario extends JDialog {
             }
         };
         cancelar.addActionListener(oyenteCancelar);
+    }
+
+    private void anyadeComponentes() {
+        add(textoNombre);
+        add(nombre);
+        add(textoApellidos);
+        add(apellidos);
+        add(textoCorreo);
+        add(correo);
+        add(textoFecha);
+        add(new JLabel(""));
+        add(textoDia);
+        add(diaNacimiento);
+        add(textoMes);
+        add(mesNacimiento);
+        add(textoAnio);
+        add(anyoNacimiento);
+        add(aceptar);
+        add(cancelar);
     }
 
     private void estiloBoton() {
@@ -148,6 +151,12 @@ public class DialogoNuevoUsuario extends JDialog {
         }
     }
 
+    private void estilos() {
+        estiloBoton();
+        estiloJLabel();
+        estiloJTextField();
+    }
+
     private void validarEmail(String correo) {
         Pattern patron = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -157,6 +166,24 @@ public class DialogoNuevoUsuario extends JDialog {
         } else {
             JOptionPane.showMessageDialog(null, "El email ingresado es inválido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void evitaLetras(JTextField textField) {
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char entrada = e.getKeyChar();
+                if (entrada < '0' || entrada > '9') {
+                    e.consume();
+                }
+            }
+        });
+    }
+
+    private void evitaLetrasEnJTextField() {
+        evitaLetras(diaNacimiento);
+        evitaLetras(mesNacimiento);
+        evitaLetras(anyoNacimiento);
     }
 
 }
