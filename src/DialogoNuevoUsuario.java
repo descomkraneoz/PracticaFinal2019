@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 public class DialogoNuevoUsuario extends JDialog {
     File file = new File("usuarios.txt");
+    ListaDeUsuario lista = new ListaDeUsuario();
     private final JTextField nombre = new JTextField();
     private final JTextField apellidos = new JTextField();
     private final JTextField correo = new JTextField();

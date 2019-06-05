@@ -20,10 +20,16 @@ public class Prueba {
 
         //System.out.println(pablo.getEdadFinal());
 
-        Cantante fulano = new Cantante("pepe", "perez");
+       /* Cantante fulano = new Cantante("pepe", "perez");
         Disco p = new Disco("mar de espinas", 50);
         fulano.listadoDiscos.pideYAnyade();
         fulano.listadoDiscos.discos.add(p);
-        System.out.println(fulano.info() + fulano.listadoDiscos.info());
+        System.out.println(fulano.info() + fulano.listadoDiscos.info());*/
+
+        PanelUsuario miPanel = new PanelUsuario();
+        MarcoUsuario miMarco = new MarcoUsuario();
+        miMarco.add(miPanel);
+        //miMarco.centrarMarco();
+        miMarco.pack();
     }
 }

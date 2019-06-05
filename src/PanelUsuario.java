@@ -21,16 +21,7 @@ public class PanelUsuario extends JPanel {
         IncorporaDialogoNuevoUsuario idnu = new IncorporaDialogoNuevoUsuario();
         nuevoUsuario.addActionListener(idnu);
         evitaLetras(passwordField);
-
-        /*passwordField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                if (passwordField.getUIClassID().length() == 9) {
-                    System.out.println("probando este campo");
-                }
-            }
-        }); */
+        IncorporarDialogoUsuario idu = new IncorporarDialogoUsuario();
     }
 
     private void anyadeComponente() {
@@ -92,26 +83,8 @@ public class PanelUsuario extends JPanel {
         }catch (IOException e){
                 System.out.println(e.getMessage());
         }
-    }
+    }  */
 
-    private void longitudMaxPassword(JPasswordField jpf){
-        Usuario u = new Usuario(null,null,null,0,0,0);
-
-        jpf.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                if (jpf.getUIClassID().length()==9){
-                    u.getID_Usuario().equals(jpf);
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                super.focusLost(e);
-            }
-        });
-    }*/
 
     public String getPasswordField() {
         return passwordField.getUIClassID();
@@ -122,6 +95,16 @@ public class PanelUsuario extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             DialogoNuevoUsuario dnu = new DialogoNuevoUsuario();
+        }
+    }
+
+    private class IncorporarDialogoUsuario implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (getPasswordField().length() == 9) {
+                //existeUsuario();
+            }
         }
     }
 

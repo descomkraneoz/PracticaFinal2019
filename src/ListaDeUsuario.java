@@ -2,7 +2,13 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 
-public class ListaDeUsuario implements Utilizable {
+public class ListaDeUsuario {
+    public static void main(String[] args) {
+        ListaDeUsuario lu = new ListaDeUsuario();
+        Usuario u = new Usuario("Maria", "Martos", "martos@gmail.com", 19, 01, 1989);
+        lu.anyadirUsuario(u);
+        lu.leeDeFichero();
+    }
 
     private static File FICHERO_GUARDADO_USUARIOS = new File("usuarios.txt");
     private final List<Usuario> listaUsuario = null;
@@ -10,26 +16,17 @@ public class ListaDeUsuario implements Utilizable {
 
     {
         if (FICHERO_GUARDADO_USUARIOS.exists()) {
-            this.leeYGuardaEnFichero();
+            this.leeDeFichero();
         }
     }
 
-    public void leeYGuardaEnFichero() {
+    public void leeDeFichero() {
         try {
             List<String> lineas = Files.readAllLines(FICHERO_GUARDADO_USUARIOS.toPath());
-            Iterator<String> iterator = lineas.iterator();
-            String[] lineasDelUsuarioActual = new String[Usuario.LINEAS_DE_LECTURA];
-            int[] fechaDelUsuario = new int[Usuario.LINEAS_DE_LECTURA - 3];
-            while (iterator.hasNext()) {
-                for (int i = 0; i < Usuario.LINEAS_DE_LECTURA; i++) {
-                    lineasDelUsuarioActual[i] = iterator.next();
-                }
-                usuarios.put(lineasDelUsuarioActual[0], new Usuario(lineasDelUsuarioActual[0], lineasDelUsuarioActual[1], lineasDelUsuarioActual[2],
-                        fechaDelUsuario[3], fechaDelUsuario[4], fechaDelUsuario[5], lineasDelUsuarioActual[6]));
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public boolean estaElUsuario(String ID_USUARIO) {
@@ -57,8 +54,6 @@ public class ListaDeUsuario implements Utilizable {
         usuarios.remove(usuario);
     }
 
-
-    @Override
     public void guardaEnFichero(File fichero) {
         Usuario u = new Usuario(null, null, null, 0, 0, 0);
         fichero = FICHERO_GUARDADO_USUARIOS;
@@ -72,23 +67,6 @@ public class ListaDeUsuario implements Utilizable {
         }
     }
 
-    @Override
-    public Object leerDeFichero(File file) {
-        ListaDeUsuario nuevaLista = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FICHERO_GUARDADO_USUARIOS))) {
-            nuevaLista = (ListaDeUsuario) ois.readObject();
-        } catch (FileNotFoundException e) {
-            new IllegalArgumentException("No se pudo leer la lista de Usuarios correctamente ya que no se encontró el fichero.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            new IllegalArgumentException("Error, el objeto no se corresponde con la lista");
-            e.printStackTrace();
-        }
-        return nuevaLista;
-    }
-
-    @Override
     public String info() {
         String salida = "";
         if (listaUsuario.size() == 0) {
