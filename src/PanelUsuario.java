@@ -4,15 +4,40 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.io.*;
 
 public class PanelUsuario extends JPanel {
+
+    File fichero = new File("usuarios.txt");
     JLabel password = new JLabel("Password");
-    JPasswordField passwordField = new JPasswordField(20);
+    JPasswordField passwordField = new JPasswordField("*", 20);
     JButton nuevoUsuario = new JButton("Crear nuevo Usuario");
+
+    public PanelUsuario() {
+        setBackground(new Color(232, 36, 21, 91));
+        anyadeComponente();
+        cargaEstilos();
+        IncorporaDialogoNuevoUsuario idnu = new IncorporaDialogoNuevoUsuario();
+        nuevoUsuario.addActionListener(idnu);
+        evitaLetras(passwordField);
+
+        /*passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (passwordField.getUIClassID().length() == 9) {
+                    System.out.println("probando este campo");
+                }
+            }
+        }); */
+    }
+
+    private void anyadeComponente() {
+        add(password);
+        add(passwordField);
+        add(nuevoUsuario);
+    }
 
     private void estiloBoton() {
         nuevoUsuario.setBounds(150, 100, 150, 40);
@@ -35,48 +60,69 @@ public class PanelUsuario extends JPanel {
         passwordField.setForeground(new Color(255, 23, 83, 100));
     }
 
-
-
-    public PanelUsuario() {
-        setBackground(new Color(232, 36, 21, 91));
-        add(password);
-        add(passwordField);
-        add(nuevoUsuario);
+    private void cargaEstilos() {
         estiloBoton();
         estiloJLabel();
         estiloJtextField();
-        passwordField.addKeyListener(new KeyAdapter() {
+    }
+
+    private void evitaLetras(JPasswordField textField) {
+        textField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) { //evita que introduzcan letras
-                super.keyTyped(e);
-                char entradaPass = e.getKeyChar();
-                if (entradaPass < '0' || entradaPass > '9') {
+            public void keyTyped(KeyEvent e) {
+                char entrada = e.getKeyChar();
+                if (entrada < '0' || entrada > '9') {
                     e.consume();
                 }
             }
         });
-        passwordField.addKeyListener(new KeyAdapter() {
+    }
+
+    /*private void leerUsuario() throws IOException {
+        FileReader fr=new FileReader(fichero.getPath());
+        BufferedReader br=new BufferedReader(fr);
+        String cadena=br.readLine();
+        while (cadena!=null){
+            System.out.println(cadena);
+            cadena=br.readLine();
+        }try{
+            if (fr!=null){
+                fr.close();
+                }
+        }catch (IOException e){
+                System.out.println(e.getMessage());
+        }
+    }
+
+    private void longitudMaxPassword(JPasswordField jpf){
+        Usuario u = new Usuario(null,null,null,0,0,0);
+
+        jpf.addFocusListener(new FocusAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                if (passwordField.getUIClassID().length() == 9) {
-                    System.out.println("probando este campo");
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                if (jpf.getUIClassID().length()==9){
+                    u.getID_Usuario().equals(jpf);
                 }
             }
-        });
 
-        ActionListener oyenteBoton = new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                DialogoNuevoUsuario dnu = new DialogoNuevoUsuario();
-
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
             }
-        };
-        nuevoUsuario.addActionListener(oyenteBoton);
-    }
+        });
+    }*/
 
     public String getPasswordField() {
         return passwordField.getUIClassID();
+    }
+
+    private class IncorporaDialogoNuevoUsuario implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            DialogoNuevoUsuario dnu = new DialogoNuevoUsuario();
+        }
     }
 
 }
