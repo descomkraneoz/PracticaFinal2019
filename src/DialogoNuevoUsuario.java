@@ -39,6 +39,7 @@ public class DialogoNuevoUsuario extends JDialog {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Nuevo Usuario");
+        setModal(true);
         anyadeComponentes();
         anyadeEstilos();
         evitaLetrasEnJTextField();
